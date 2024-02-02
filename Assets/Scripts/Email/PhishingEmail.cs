@@ -9,14 +9,16 @@ public class PhishingEmail : Email {
 
     private void OnCollisionEnter2D(Collision2D collision) {
 
-        if (collision.gameObject.CompareTag("Company")) { // collider is defender
+        if (collision.collider.CompareTag("Company")) { // collider is defender
 
+            // bad
             gameManager.RemoveCompanyReputation(reputationLoss);
-            Destroy(gameObject);
+            SelfDestruct();
 
-        } else if (collision.gameObject.CompareTag("Defender")) {  // collider is defender
+        } else if (collision.collider.CompareTag("Defender") || collision.collider.CompareTag("Firewall")) {  // collider is defender or firewall
 
-            Destroy(gameObject);
+            // good
+            SelfDestruct();
 
         }
     }

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class DefenderController : MonoBehaviour {
 
     [Header("References")]
+    [SerializeField] private SpriteRenderer firewall;
     private GameManager gameManager;
 
     [Header("Movement")]
@@ -13,28 +15,35 @@ public class DefenderController : MonoBehaviour {
     [SerializeField] private float smoothDuration;
     private float currVelocity;
 
-    [Header("Filter")]
-    private bool hasFilter;
-
     [Header("Size Upgrade")]
     [SerializeField] private Upgrade sizeUpgrade;
-    [SerializeField] private float finalScale;
+    [SerializeField] private float minScale;
     private float startScale; // scale has to be uniform
 
     [Header("Filter Upgrade")]
     [SerializeField] private Upgrade filterUpgrade;
+    [SerializeField][Range(0f, 100f)] private float maxFilterChance;
 
-    [Header("Filter Upgrade")]
+    [Header("Revenue Upgrade")]
     [SerializeField] private Upgrade revenueUpgrade;
+    [SerializeField] private float maxRevenueMultiplier;
+
+    [Header("Firewall Upgrade")]
+    [SerializeField] private Upgrade firewallUpgrade;
+    [SerializeField][Range(0f, 100f)] private int maxFirewallChance;
+    [SerializeField] private float firewallFadeDuration;
 
     [Header("Keybinds")]
     [SerializeField] private KeyCode sizeUpgradeKey;
     [SerializeField] private KeyCode filterUpgradeKey;
     [SerializeField] private KeyCode revenueUpgradeKey;
+    [SerializeField] private KeyCode firewallUpgradeKey;
 
     private void Start() {
 
         gameManager = FindObjectOfType<GameManager>();
+
+        firewall.gameObject.SetActive(false);
 
         sizeUpgrade.SetKeybindText(sizeUpgradeKey.ToString());
         startScale = transform.localScale.x;
@@ -42,6 +51,8 @@ public class DefenderController : MonoBehaviour {
         filterUpgrade.SetKeybindText(filterUpgradeKey.ToString());
 
         revenueUpgrade.SetKeybindText(revenueUpgradeKey.ToString());
+
+        firewallUpgrade.SetKeybindText(firewallUpgradeKey.ToString());
 
     }
 
@@ -60,7 +71,7 @@ public class DefenderController : MonoBehaviour {
 
                 sizeUpgrade.Purchase();
                 gameManager.RemoveRevenue(sizeUpgrade.GetCost());
-                transform.localScale = (Vector3.one * startScale) + (Vector3.one * ((finalScale - startScale) * ((float) sizeUpgrade.GetCurrentStage() / (float) sizeUpgrade.GetTotalStages())));
+                transform.localScale = (Vector3.one * startScale) + (Vector3.one * ((minScale - startScale) * ((float) sizeUpgrade.GetCurrentStage() / (float) sizeUpgrade.GetTotalStages())));
 
             }
         }
@@ -71,7 +82,7 @@ public class DefenderController : MonoBehaviour {
 
                 filterUpgrade.Purchase();
                 gameManager.RemoveRevenue(filterUpgrade.GetCost());
-                SetHasFilter(true);
+                gameManager.IncreaseFilterChance(((float) filterUpgrade.GetCurrentStage() / (float) filterUpgrade.GetTotalStages()) * maxFilterChance);
 
             }
         }
@@ -82,18 +93,30 @@ public class DefenderController : MonoBehaviour {
 
                 revenueUpgrade.Purchase();
                 gameManager.RemoveRevenue(revenueUpgrade.GetCost());
-                gameManager.IncreaseRevenueMultiplier(1);
+                gameManager.IncreaseRevenueMultiplier(((float) revenueUpgrade.GetCurrentStage() / (float) revenueUpgrade.GetTotalStages()) * maxRevenueMultiplier);
+
+            }
+        }
+
+        if (Input.GetKeyDown(firewallUpgradeKey)) {
+
+            if (gameManager.CanAfford(firewallUpgrade.GetCost())) { // can afford
+
+                // if first stage, activate firewall
+                if (firewallUpgrade.GetCurrentStage() == 0) {
+
+                    firewall.color = new Color(firewall.color.r, firewall.color.g, firewall.color.b, 0f); // reset alpha for fade
+                    firewall.gameObject.SetActive(true);
+                    firewall.DOFade(1f, firewallFadeDuration);
+
+                }
+
+                firewallUpgrade.Purchase();
+                gameManager.RemoveRevenue(firewallUpgrade.GetCost());
+
+                gameManager.IncreaseFirewallChance(((float) firewallUpgrade.GetCurrentStage() / (float) firewallUpgrade.GetTotalStages()) * maxFirewallChance);
 
             }
         }
     }
-
-    public void SetHasFilter(bool hasFilter) {
-
-        this.hasFilter = hasFilter;
-
-    }
-
-    public bool HasFilter() { return hasFilter; }
-
 }

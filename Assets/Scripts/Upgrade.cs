@@ -16,7 +16,7 @@ public class Upgrade {
     [SerializeField] private int cost;
     [SerializeField] private int costMultiplier;
     [SerializeField] private int totalStages;
-    private int currStage; // indexed from 1
+    private int currStage; // indexed from 0
 
     [Header("Animations")]
     [SerializeField] private float popoutDuration;
@@ -37,7 +37,6 @@ public class Upgrade {
 
     public bool CanPurchase() {
 
-        Debug.Log(currStage);
         return currStage < totalStages; // can't purchase if at max stage
 
     }

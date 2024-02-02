@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Defender
   - Company
+  - Firewall
   layers:
   - Default
   - TransparentFX

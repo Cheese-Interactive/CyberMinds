@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,14 @@ public class GameManager : MonoBehaviour {
 
     [Header("Revenue")]
     [SerializeField] private float revenueCooldown;
-    private int revenueMultiplier;
+    private float revenueMultiplier;
     private int totalRevenue;
+
+    [Header("Filter")]
+    private float filterChance;
+
+    [Header("Firewall")]
+    private float firewallChance;
 
     [Header("Emails")]
     [SerializeField] private Transform emailSpawnsParent;
@@ -36,6 +43,12 @@ public class GameManager : MonoBehaviour {
 
         StartCoroutine(SpawnEmails());
         StartCoroutine(GenerateRevenue());
+
+    }
+
+    private void OnApplicationQuit() {
+
+        DOTween.KillAll();
 
     }
 
@@ -82,7 +95,7 @@ public class GameManager : MonoBehaviour {
 
     }
 
-    public void IncreaseRevenueMultiplier(int revenueMultiplier) {
+    public void IncreaseRevenueMultiplier(float revenueMultiplier) {
 
         this.revenueMultiplier += revenueMultiplier;
 
@@ -111,11 +124,27 @@ public class GameManager : MonoBehaviour {
         while (true) {
 
             yield return new WaitForSeconds(revenueCooldown);
-            totalRevenue += sponsorCount * revenueMultiplier;
+            totalRevenue += (int) (sponsorCount * revenueMultiplier);
             uiController.UpdateRevenueText(totalRevenue); // update revenue text
 
         }
     }
+
+    public void IncreaseFilterChance(float filterChance) {
+
+        this.filterChance += filterChance;
+
+    }
+
+    public float GetFilterChance() { return filterChance; }
+
+    public void IncreaseFirewallChance(float firewallChance) {
+
+        this.firewallChance += firewallChance;
+
+    }
+
+    public float GetFirewallChance() { return firewallChance; }
 
     private IEnumerator SpawnEmails() {
 
