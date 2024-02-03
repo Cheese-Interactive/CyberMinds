@@ -16,7 +16,7 @@ public abstract class Email : MonoBehaviour {
     [SerializeField] protected float maxDrag;
 
     [Header("Destroy")]
-    [SerializeField] protected ParticleSystem emailDestroyEffect;
+    [SerializeField] protected ParticleSystem destroyEffect;
 
     private void Start() {
 
@@ -32,7 +32,7 @@ public abstract class Email : MonoBehaviour {
 
     protected void SelfDestruct() {
 
-        Instantiate(emailDestroyEffect, transform.position, Quaternion.Euler(0f, 0f, 0f)); // spawn destroy effect
+        Instantiate(destroyEffect, transform.position, Quaternion.Euler(0f, 0f, 0f)); // spawn destroy effect
         Destroy(gameObject);
 
     }

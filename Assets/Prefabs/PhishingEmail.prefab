@@ -185,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDrag: 2
   maxDrag: 5
-  emailDestroyEffect: {fileID: 7237983248369784838, guid: 5a5b179d6fb9a0e43b1df91c7dde215c, type: 3}
+  destroyEffect: {fileID: 7237983248369784838, guid: 5a5b179d6fb9a0e43b1df91c7dde215c, type: 3}
   reputationLoss: 5
 --- !u!96 &205981856397928544
 TrailRenderer:

@@ -185,13 +185,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDrag: 2
   maxDrag: 5
-  emailDestroyEffect: {fileID: 7237983248369784838, guid: cc56fad446d172d4184169394720f2ef, type: 3}
-  reputationGain: 1
+  destroyEffect: {fileID: 7237983248369784838, guid: cc56fad446d172d4184169394720f2ef, type: 3}
+  reputationGain: 0
   reputationLoss: 5
   sponsorsGain: 1
-  sponsorsLoss: 5
-  deflectionWaitDuration: 2
-  deflectionForce: 5
+  minSponsorLoss: 0
+  maxSponsorLoss: 5
+  deflectionForce: 12
   fadeDuration: 0.25
 --- !u!96 &7254960565930721035
 TrailRenderer:

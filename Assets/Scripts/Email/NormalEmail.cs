@@ -9,7 +9,10 @@ public class NormalEmail : Email {
     [SerializeField] private float reputationGain;
     [SerializeField] private float reputationLoss;
     [SerializeField] private int sponsorsGain;
-    [SerializeField] private int sponsorsLoss;
+
+    [Header("Sponsors")]
+    [SerializeField] private int minSponsorLoss;
+    [SerializeField] private int maxSponsorLoss;
 
     [Header("Deflection")]
     [SerializeField] private float deflectionForce;
@@ -18,8 +21,6 @@ public class NormalEmail : Email {
     [SerializeField] private float fadeDuration;
 
     private void OnCollisionEnter2D(Collision2D collision) {
-
-        print(collision.collider.name);
 
         if (collision.collider.CompareTag("Company")) { // collider is company
 
@@ -44,7 +45,7 @@ public class NormalEmail : Email {
 
             // bad
             gameManager.RemoveCompanyReputation(reputationLoss);
-            gameManager.RemoveSponsors(sponsorsLoss);
+            gameManager.RemoveSponsors(Random.Range(minSponsorLoss, maxSponsorLoss + 1));
             SelfDestruct();
 
         } else if (collision.collider.CompareTag("Firewall")) {  // collider is firewall
@@ -64,7 +65,7 @@ public class NormalEmail : Email {
 
             // bad
             gameManager.RemoveCompanyReputation(reputationLoss);
-            gameManager.RemoveSponsors(sponsorsLoss);
+            gameManager.RemoveSponsors(Random.Range(minSponsorLoss, maxSponsorLoss + 1));
             SelfDestruct();
 
         }

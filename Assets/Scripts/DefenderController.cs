@@ -9,6 +9,7 @@ public class DefenderController : MonoBehaviour {
     [Header("References")]
     [SerializeField] private SpriteRenderer firewall;
     private GameManager gameManager;
+    private GameUIController uiController;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
@@ -17,6 +18,7 @@ public class DefenderController : MonoBehaviour {
 
     [Header("Size Upgrade")]
     [SerializeField] private Upgrade sizeUpgrade;
+    [SerializeField] private float sizeLerpDuration;
     [SerializeField] private float minScale;
     private float startScale; // scale has to be uniform
 
@@ -33,6 +35,9 @@ public class DefenderController : MonoBehaviour {
     [SerializeField][Range(0f, 100f)] private int maxFirewallChance;
     [SerializeField] private float firewallFadeDuration;
 
+    [Header("Death")]
+    [SerializeField] private ParticleSystem destroyEffect;
+
     [Header("Keybinds")]
     [SerializeField] private KeyCode sizeUpgradeKey;
     [SerializeField] private KeyCode filterUpgradeKey;
@@ -42,17 +47,15 @@ public class DefenderController : MonoBehaviour {
     private void Start() {
 
         gameManager = FindObjectOfType<GameManager>();
-
-        firewall.gameObject.SetActive(false);
+        uiController = FindObjectOfType<GameUIController>();
 
         sizeUpgrade.SetKeybindText(sizeUpgradeKey.ToString());
-        startScale = transform.localScale.x;
-
         filterUpgrade.SetKeybindText(filterUpgradeKey.ToString());
-
         revenueUpgrade.SetKeybindText(revenueUpgradeKey.ToString());
-
         firewallUpgrade.SetKeybindText(firewallUpgradeKey.ToString());
+
+        startScale = transform.localScale.x;
+        firewall.gameObject.SetActive(false);
 
     }
 
@@ -71,7 +74,9 @@ public class DefenderController : MonoBehaviour {
 
                 sizeUpgrade.Purchase();
                 gameManager.RemoveRevenue(sizeUpgrade.GetCost());
-                transform.localScale = (Vector3.one * startScale) + (Vector3.one * ((minScale - startScale) * ((float) sizeUpgrade.GetCurrentStage() / (float) sizeUpgrade.GetTotalStages())));
+                transform.DOScale((Vector2.one * startScale) + (Vector2.one * ((minScale - startScale) * ((float) sizeUpgrade.GetCurrentStage() / (float) sizeUpgrade.GetTotalStages()))), sizeLerpDuration);
+
+                uiController.UpdateUpgradesLayout(); // update upgrades layout
 
             }
         }
@@ -84,6 +89,8 @@ public class DefenderController : MonoBehaviour {
                 gameManager.RemoveRevenue(filterUpgrade.GetCost());
                 gameManager.IncreaseFilterChance(((float) filterUpgrade.GetCurrentStage() / (float) filterUpgrade.GetTotalStages()) * maxFilterChance);
 
+                uiController.UpdateUpgradesLayout(); // update upgrades layout
+
             }
         }
 
@@ -94,6 +101,8 @@ public class DefenderController : MonoBehaviour {
                 revenueUpgrade.Purchase();
                 gameManager.RemoveRevenue(revenueUpgrade.GetCost());
                 gameManager.IncreaseRevenueMultiplier(((float) revenueUpgrade.GetCurrentStage() / (float) revenueUpgrade.GetTotalStages()) * maxRevenueMultiplier);
+
+                uiController.UpdateUpgradesLayout(); // update upgrades layout
 
             }
         }
@@ -116,7 +125,16 @@ public class DefenderController : MonoBehaviour {
 
                 gameManager.IncreaseFirewallChance(((float) firewallUpgrade.GetCurrentStage() / (float) firewallUpgrade.GetTotalStages()) * maxFirewallChance);
 
+                uiController.UpdateUpgradesLayout(); // update upgrades layout
+
             }
         }
+    }
+
+    public void Kill() {
+
+        Instantiate(destroyEffect, transform.position, Quaternion.Euler(0f, 0f, 0f)); // spawn destroy effect
+        Destroy(gameObject);
+
     }
 }
