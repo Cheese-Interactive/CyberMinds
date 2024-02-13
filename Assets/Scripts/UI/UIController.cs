@@ -42,12 +42,8 @@ public class GameUIController : MonoBehaviour {
     [SerializeField] private CanvasGroup gameOverScreen;
     [SerializeField] private float gameOverFadeDuration;
     [SerializeField] private Button replayButton;
-    [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button quitButton;
     private AsyncOperation levelLoadOperation;
-
-    [Header("Scenes")]
-    [SerializeField] private int mainMenuSceneIndex;
 
     private void Start() {
 
@@ -66,7 +62,6 @@ public class GameUIController : MonoBehaviour {
         gameOverScreen.gameObject.SetActive(false); // disable game over screen
 
         replayButton.onClick.AddListener(ReplayLevel);
-        mainMenuButton.onClick.AddListener(LoadMainMenu);
         quitButton.onClick.AddListener(() => Application.Quit());
 
         // update layouts
@@ -119,15 +114,6 @@ public class GameUIController : MonoBehaviour {
     private void ReplayLevel() {
 
         levelLoadOperation = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
-        levelLoadOperation.allowSceneActivation = false;
-
-        ShowLoadingScreen();
-
-    }
-
-    private void LoadMainMenu() {
-
-        levelLoadOperation = SceneManager.LoadSceneAsync(mainMenuSceneIndex);
         levelLoadOperation.allowSceneActivation = false;
 
         ShowLoadingScreen();

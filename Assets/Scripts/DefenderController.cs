@@ -10,10 +10,12 @@ public class DefenderController : MonoBehaviour {
     [SerializeField] private SpriteRenderer firewall;
     private GameManager gameManager;
     private GameUIController uiController;
+    private Rigidbody2D rb;
 
     [Header("Movement")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float smoothDuration;
+    private float horizontalInput;
     private float currVelocity;
 
     [Header("Size Upgrade")]
@@ -48,6 +50,7 @@ public class DefenderController : MonoBehaviour {
 
         gameManager = FindObjectOfType<GameManager>();
         uiController = FindObjectOfType<GameUIController>();
+        rb = GetComponent<Rigidbody2D>();
 
         sizeUpgrade.SetKeybindText(sizeUpgradeKey.ToString());
         filterUpgrade.SetKeybindText(filterUpgradeKey.ToString());
@@ -61,11 +64,14 @@ public class DefenderController : MonoBehaviour {
 
     private void Update() {
 
-        Vector3 position = new Vector2(Mathf.SmoothDamp(transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).x, ref currVelocity, smoothDuration), transform.position.y);
-        float distance = transform.position.z - Camera.main.transform.position.z;
+        horizontalInput = Input.GetAxis("Horizontal");
 
-        position.x = Mathf.Clamp(position.x, Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + (transform.localScale.x / 2f), Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - (transform.localScale.x / 2f));
-        transform.position = position;
+        //// mouse control
+        //Vector3 position = new Vector2(Mathf.SmoothDamp(transform.position.x, Camera.main.ScreenToWorldPoint(Input.mousePosition).x, ref currVelocity, smoothDuration), transform.position.y);
+        //float distance = transform.position.z - Camera.main.transform.position.z;
+
+        //position.x = Mathf.Clamp(position.x, Camera.main.ViewportToWorldPoint(new Vector3(0, 0, distance)).x + (transform.localScale.x / 2f), Camera.main.ViewportToWorldPoint(new Vector3(1, 0, distance)).x - (transform.localScale.x / 2f));
+        //transform.position = position;
 
         // upgrades
         if (Input.GetKeyDown(sizeUpgradeKey)) {
@@ -129,6 +135,13 @@ public class DefenderController : MonoBehaviour {
 
             }
         }
+    }
+
+    private void FixedUpdate() {
+
+        // move defender
+        rb.velocity = Vector2.right * horizontalInput * moveSpeed;
+
     }
 
     public void Kill() {
