@@ -42,7 +42,6 @@ public class GameUIController : MonoBehaviour {
     [SerializeField] private CanvasGroup gameOverScreen;
     [SerializeField] private float gameOverFadeDuration;
     [SerializeField] private Button replayButton;
-    [SerializeField] private Button quitButton;
     private AsyncOperation levelLoadOperation;
 
     private void Start() {
@@ -62,7 +61,6 @@ public class GameUIController : MonoBehaviour {
         gameOverScreen.gameObject.SetActive(false); // disable game over screen
 
         replayButton.onClick.AddListener(ReplayLevel);
-        quitButton.onClick.AddListener(() => Application.Quit());
 
         // update layouts
         UpdateStatisticsLayout();

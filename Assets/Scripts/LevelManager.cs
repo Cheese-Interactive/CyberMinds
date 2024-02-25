@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class LevelManager : MonoBehaviour
-{
-    public string sceneName;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class LevelManager : MonoBehaviour {
+
+    [SerializeField] private string sceneName;
+
+    private void Start() {
+
+        // rebuild all layouts
+        foreach (LayoutGroup group in FindObjectsOfType<LayoutGroup>())
+            LayoutRebuilder.ForceRebuildLayoutImmediate(group.GetComponent<RectTransform>());
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void changeScene()
-    {
+    public void ChangeScene() {
+
         SceneManager.LoadScene(sceneName);
+
     }
 }

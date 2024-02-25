@@ -195,7 +195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Settings
+  m_text: Instructions
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4568723edb433447a74a81a6a59f249, type: 2}
   m_sharedMaterial: {fileID: -7939444840111031971, guid: e4568723edb433447a74a81a6a59f249, type: 2}
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 469665215}
   - component: {fileID: 469665214}
   m_Layer: 0
-  m_Name: SceneManager
+  m_Name: LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -960,15 +960,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 785318203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7532dac4fe6c364a853634e73ca9c8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c23e3e9fc3949e489e5aaba79479835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuLayout: {fileID: 1742153880}
   playButton: {fileID: 1093745712}
+  instructionsButton: {fileID: 1404940636}
   quitButton: {fileID: 718115297}
-  loadingScreen: {fileID: 1472534730}
-  loadingFadeDuration: 0.5
-  gameSceneIndex: 1
+  gameScene: Game
+  instructionsScene: Instructions
 --- !u!1 &1001816185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1153,7 +1152,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 945.6853, y: 0}
+  m_AnchoredPosition: {x: 959.8352, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1035368808
@@ -1298,13 +1297,13 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1093745708}
-  - {fileID: 718115294}
   - {fileID: 1404940633}
+  - {fileID: 718115294}
   m_Father: {fileID: 1742153880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 945.6853, y: 0}
+  m_AnchoredPosition: {x: 959.8352, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1055006259
@@ -1526,7 +1525,7 @@ GameObject:
   - component: {fileID: 1404940635}
   - component: {fileID: 1404940634}
   m_Layer: 5
-  m_Name: SettingsButton
+  m_Name: InstructionsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,7 +1697,7 @@ GameObject:
   - component: {fileID: 1457601034}
   - component: {fileID: 1457601033}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

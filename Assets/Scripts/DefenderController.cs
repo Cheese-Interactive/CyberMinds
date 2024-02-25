@@ -7,7 +7,7 @@ using UnityEngine;
 public class DefenderController : MonoBehaviour {
 
     [Header("References")]
-    [SerializeField] private SpriteRenderer firewall;
+    //[SerializeField] private SpriteRenderer firewall;
     private GameManager gameManager;
     private GameUIController uiController;
     private Rigidbody2D rb;
@@ -16,7 +16,6 @@ public class DefenderController : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float smoothDuration;
     private float horizontalInput;
-    private float currVelocity;
 
     [Header("Size Upgrade")]
     [SerializeField] private Upgrade sizeUpgrade;
@@ -44,7 +43,7 @@ public class DefenderController : MonoBehaviour {
     [SerializeField] private KeyCode sizeUpgradeKey;
     [SerializeField] private KeyCode filterUpgradeKey;
     [SerializeField] private KeyCode revenueUpgradeKey;
-    [SerializeField] private KeyCode firewallUpgradeKey;
+    //[SerializeField] private KeyCode firewallUpgradeKey;
 
     private void Start() {
 
@@ -55,10 +54,10 @@ public class DefenderController : MonoBehaviour {
         sizeUpgrade.SetKeybindText(sizeUpgradeKey.ToString());
         filterUpgrade.SetKeybindText(filterUpgradeKey.ToString());
         revenueUpgrade.SetKeybindText(revenueUpgradeKey.ToString());
-        firewallUpgrade.SetKeybindText(firewallUpgradeKey.ToString());
+        //firewallUpgrade.SetKeybindText(firewallUpgradeKey.ToString());
 
         startScale = transform.localScale.x;
-        firewall.gameObject.SetActive(false);
+        //firewall.gameObject.SetActive(false);
 
     }
 
@@ -113,28 +112,28 @@ public class DefenderController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKeyDown(firewallUpgradeKey)) {
+        //if (Input.GetKeyDown(firewallUpgradeKey)) {
 
-            if (gameManager.CanAfford(firewallUpgrade.GetCost())) { // can afford
+        //    if (gameManager.CanAfford(firewallUpgrade.GetCost())) { // can afford
 
-                // if first stage, activate firewall
-                if (firewallUpgrade.GetCurrentStage() == 0) {
+        //        // if first stage, activate firewall
+        //        if (firewallUpgrade.GetCurrentStage() == 0) {
 
-                    firewall.color = new Color(firewall.color.r, firewall.color.g, firewall.color.b, 0f); // reset alpha for fade
-                    firewall.gameObject.SetActive(true);
-                    firewall.DOFade(1f, firewallFadeDuration);
+        //            firewall.color = new Color(firewall.color.r, firewall.color.g, firewall.color.b, 0f); // reset alpha for fade
+        //            firewall.gameObject.SetActive(true);
+        //            firewall.DOFade(1f, firewallFadeDuration);
 
-                }
+        //        }
 
-                firewallUpgrade.Purchase();
-                gameManager.RemoveRevenue(firewallUpgrade.GetCost());
+        //        firewallUpgrade.Purchase();
+        //        gameManager.RemoveRevenue(firewallUpgrade.GetCost());
 
-                gameManager.IncreaseFirewallChance(((float) firewallUpgrade.GetCurrentStage() / (float) firewallUpgrade.GetTotalStages()) * maxFirewallChance);
+        //        gameManager.IncreaseFirewallChance(((float) firewallUpgrade.GetCurrentStage() / (float) firewallUpgrade.GetTotalStages()) * maxFirewallChance);
 
-                uiController.UpdateUpgradesLayout(); // update upgrades layout
+        //        uiController.UpdateUpgradesLayout(); // update upgrades layout
 
-            }
-        }
+        //    }
+        //}
     }
 
     private void FixedUpdate() {
